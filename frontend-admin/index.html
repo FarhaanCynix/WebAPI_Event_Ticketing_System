@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EventHub | Admin Portal</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo">⚡ EventHub Admin Panel</div>
+    <nav id="navLinks">
+      <span id="userGreeting" class="hidden"></span>
+      <button id="navLoginBtn" onclick="showSection('authSection')">Admin Login</button>
+      <button id="navBookingsBtn" class="hidden" onclick="showSection('bookingsSection')">Global Bookings</button>
+      <button id="navVenuesBtn" class="hidden" onclick="showSection('venuesSection')">Venues List</button>
+      <button id="navLogoutBtn" class="hidden" onclick="handleLogout()">Logout</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div id="alertBox" class="alert hidden"></div>
+
+    <!-- 1. Admin Login -->
+    <section id="authSection" class="card">
+      <h3>System Administrator Sign In</h3>
+      <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 1rem;">Default admin: admin@eventhub.com</p>
+      <form onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label>Admin Email</label>
+          <input type="email" id="loginEmail" required value="admin@eventhub.com">
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="loginPassword" required value="Password123">
+        </div>
+        <button type="submit" class="btn primary">Login to Dashboard</button>
+      </form>
+    </section>
+
+    <!-- 2. Global Bookings Audit Section -->
+    <section id="bookingsSection" class="hidden">
+      <div class="section-header">
+        <h2>Global Customer Bookings</h2>
+        <button class="btn-sm" onclick="loadAllBookings()">🔄 Refresh Data</button>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h4>Total Bookings</h4>
+          <p id="totalBookingsCount">0</p>
+        </div>
+        <div class="stat-card">
+          <h4>Total Revenue</h4>
+          <p id="totalRevenueAmount">RM 0.00</p>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Ref</th>
+              <th>Customer</th>
+              <th>Event</th>
+              <th>Venue</th>
+              <th>Qty</th>
+              <th>Total (RM)</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="bookingsTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 3. Venues List Section -->
+    <section id="venuesSection" class="hidden">
+      <div class="section-header">
+        <h2>Registered Venues</h2>
+      </div>
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Venue Name</th>
+              <th>Location</th>
+              <th>Max Capacity</th>
+            </tr>
+          </thead>
+          <tbody id="venuesTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

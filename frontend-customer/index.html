@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EventHub | Customer Portal</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="logo">🎟️ EventHub</div>
+    <nav id="navLinks">
+      <span id="userGreeting" class="hidden"></span>
+      <button id="navLoginBtn" onclick="showSection('authSection')">Login / Register</button>
+      <button id="navEventsBtn" onclick="showSection('eventsSection')">Browse Events</button>
+      <button id="navBookingsBtn" class="hidden" onclick="showSection('bookingsSection')">My Bookings</button>
+      <button id="navLogoutBtn" class="hidden" onclick="handleLogout()">Logout</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <!-- Notification Alert Box -->
+    <div id="alertBox" class="alert hidden"></div>
+
+    <!-- 1. Authentication Section -->
+    <section id="authSection" class="card">
+      <div class="auth-tabs">
+        <button id="tabLogin" class="tab-btn active" onclick="switchAuthTab('login')">Login</button>
+        <button id="tabRegister" class="tab-btn" onclick="switchAuthTab('register')">Register</button>
+      </div>
+
+      <!-- Login Form -->
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <h3>Customer Login</h3>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="loginEmail" required placeholder="customer@example.com">
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="loginPassword" required placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn primary">Login</button>
+      </form>
+
+      <!-- Register Form -->
+      <form id="registerForm" class="hidden" onsubmit="handleRegister(event)">
+        <h3>Create New Account</h3>
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="regName" required placeholder="John Doe">
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="regEmail" required placeholder="john@example.com">
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="regPassword" required placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn primary">Register</button>
+      </form>
+    </section>
+
+    <!-- 2. Events Browsing & Booking Section -->
+    <section id="eventsSection" class="hidden">
+      <div class="section-header">
+        <h2>Explore Upcoming Events</h2>
+        <div class="search-bar">
+          <input type="text" id="searchInput" placeholder="Search events by title or keyword..." oninput="searchEvents()">
+        </div>
+      </div>
+      <div id="eventsList" class="grid"></div>
+      <div class="pagination">
+        <button id="prevPageBtn" onclick="changePage(-1)" disabled>Previous</button>
+        <span id="pageInfo">Page 1</span>
+        <button id="nextPageBtn" onclick="changePage(1)" disabled>Next</button>
+      </div>
+    </section>
+
+    <!-- 3. Booking Confirmation Modal -->
+    <div id="bookingModal" class="modal hidden">
+      <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <h3 id="modalEventTitle">Book Tickets</h3>
+        <p id="modalEventPrice"></p>
+        <div class="form-group">
+          <label>Number of Tickets:</label>
+          <input type="number" id="ticketQuantity" min="1" value="1" oninput="updateTotalPrice()">
+        </div>
+        <p><strong>Total: RM <span id="modalTotalPrice">0.00</span></strong></p>
+        <button class="btn primary" onclick="submitBooking()">Confirm & Checkout</button>
+      </div>
+    </div>
+
+    <!-- 4. My Bookings Section -->
+    <section id="bookingsSection" class="hidden">
+      <h2>My Ticket Bookings</h2>
+      <div id="myBookingsList" class="bookings-grid"></div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EventHub | Organiser Portal</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo">🎪 EventHub Organiser</div>
+    <nav id="navLinks">
+      <span id="userGreeting" class="hidden"></span>
+      <button id="navLoginBtn" onclick="showSection('authSection')">Organiser Login</button>
+      <button id="navDashboardBtn" class="hidden" onclick="showSection('dashboardSection')">Dashboard</button>
+      <button id="navCreateBtn" class="hidden" onclick="showSection('createEventSection')">+ Create Event</button>
+      <button id="navLogoutBtn" class="hidden" onclick="handleLogout()">Logout</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div id="alertBox" class="alert hidden"></div>
+
+    <!-- 1. Organiser Login -->
+    <section id="authSection" class="card">
+      <h3>Organiser Sign In</h3>
+      <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 1rem;">Use existing organiser account (e.g. organiser1@eventhub.com)</p>
+      <form onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="loginEmail" required value="organiser1@eventhub.com">
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="loginPassword" required value="Password123">
+        </div>
+        <button type="submit" class="btn primary">Login as Organiser</button>
+      </form>
+    </section>
+
+    <!-- 2. Organiser Dashboard: Events & Venues Overview -->
+    <section id="dashboardSection" class="hidden">
+      <div class="section-header">
+        <h2>Organised Events</h2>
+        <button class="btn-sm" onclick="showSection('createEventSection')">+ New Event</button>
+      </div>
+      <div id="eventsTableContainer">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Venue</th>
+              <th>Date</th>
+              <th>Price</th>
+              <th>Sold / Total</th>
+            </tr>
+          </thead>
+          <tbody id="eventsTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 3. Create Event Form -->
+    <section id="createEventSection" class="hidden card-wide">
+      <h2>Publish New Event</h2>
+      <p style="font-size:0.9rem; color:#94a3b8; margin-bottom: 1.5rem;">Event capacity cannot exceed venue maximum capacity limit.</p>
+      
+      <form onsubmit="handleCreateEvent(event)">
+        <div class="form-group">
+          <label>Event Title</label>
+          <input type="text" id="evTitle" required placeholder="e.g. AI & Cloud Expo 2026">
+        </div>
+
+        <div class="form-group">
+          <label>Description</label>
+          <textarea id="evDesc" rows="3" required placeholder="Event summary, speakers, agenda..."></textarea>
+        </div>
+
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Select Venue</label>
+            <select id="evVenue" required onchange="updateVenueInfo()"></select>
+          </div>
+          <div class="form-group">
+            <label>Venue Max Capacity</label>
+            <input type="text" id="venueCapacityHint" disabled placeholder="Select venue first">
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <div class="form-group">
+            <label>Event Date & Time</label>
+            <input type="datetime-local" id="evDate" required>
+          </div>
+          <div class="form-group">
+            <label>Ticket Price (RM)</label>
+            <input type="number" id="evPrice" step="0.01" min="0" required placeholder="50.00">
+          </div>
+          <div class="form-group">
+            <label>Total Tickets</label>
+            <input type="number" id="evTickets" min="1" required placeholder="100">
+          </div>
+        </div>
+
+        <button type="submit" class="btn primary">Publish Event</button>
+      </form>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
